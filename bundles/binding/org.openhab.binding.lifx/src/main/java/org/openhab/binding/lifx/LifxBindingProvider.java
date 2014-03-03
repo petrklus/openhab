@@ -16,4 +16,10 @@ import org.openhab.core.binding.BindingProvider;
  */
 public interface LifxBindingProvider extends BindingProvider {
 
+	/**Discovery
+	The apps start by sending UDP "discovery" packets to the network broadcast address, port 56700. They do this repeatedly until a bulb responds by sending a UDP packet back to you on port 56700. Packets are identified via its type (of 0x03).
+	The first response which matches this is what I'm using as the "controller" bulb. The controller appears to continue sending UDP packets, but I have not yet dug in to these; my assumption is that they are general announcements to the rest of the network in case there are multiple apps running which want to control the bulbs.
+	*/
+	
 }
+

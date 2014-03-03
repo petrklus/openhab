@@ -32,8 +32,10 @@ public final class LifxActivator implements BundleActivator {
 	public void start(BundleContext bc) throws Exception {
 		context = bc;
 		logger.debug("Lifx binding has been started.");
-	}
 
+//		start discovery threads
+	}
+		
 	/**
 	 * Called whenever the OSGi framework stops our bundle
 	 */
