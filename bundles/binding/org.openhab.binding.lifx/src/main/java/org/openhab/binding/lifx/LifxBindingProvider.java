@@ -21,5 +21,7 @@ public interface LifxBindingProvider extends BindingProvider {
 	The first response which matches this is what I'm using as the "controller" bulb. The controller appears to continue sending UDP packets, but I have not yet dug in to these; my assumption is that they are general announcements to the rest of the network in case there are multiple apps running which want to control the bulbs.
 	*/
 	
+	
+	
 }
 

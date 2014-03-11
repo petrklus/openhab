@@ -8,13 +8,17 @@
  */
 package org.openhab.binding.lifx.internal;
 
+import org.openhab.binding.lifx.internal.LifxBindingConfig.BindingType;
 import org.openhab.binding.lifx.LifxBindingProvider;
 import org.openhab.core.binding.BindingConfig;
 import org.openhab.core.items.Item;
+import org.openhab.core.library.items.ColorItem;
 import org.openhab.core.library.items.DimmerItem;
 import org.openhab.core.library.items.SwitchItem;
 import org.openhab.model.item.binding.AbstractGenericBindingProvider;
 import org.openhab.model.item.binding.BindingConfigParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -25,6 +29,9 @@ import org.openhab.model.item.binding.BindingConfigParseException;
  */
 public class LifxGenericBindingProvider extends AbstractGenericBindingProvider implements LifxBindingProvider {
 
+	static final Logger logger = LoggerFactory
+			.getLogger(LifxGenericBindingProvider.class);
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -37,11 +44,14 @@ public class LifxGenericBindingProvider extends AbstractGenericBindingProvider i
 	 */
 	@Override
 	public void validateItemType(Item item, String bindingConfig) throws BindingConfigParseException {
-		//if (!(item instanceof SwitchItem || item instanceof DimmerItem)) {
-		//	throw new BindingConfigParseException("item '" + item.getName()
-		//			+ "' is of type '" + item.getClass().getSimpleName()
-		//			+ "', only Switch- and DimmerItems are allowed - please check your *.items configuration");
-		//}
+		
+		// only allow color items		
+		if (!(item instanceof ColorItem || item instanceof DimmerItem)) {
+			throw new BindingConfigParseException("item '" + item.getName()
+					+ "' is of type '" + item.getClass().getSimpleName()
+					+ "', only ColorItems are allowed - please check your *.items configuration");
+		}
+
 	}
 	
 	/**
@@ -49,18 +59,34 @@ public class LifxGenericBindingProvider extends AbstractGenericBindingProvider i
 	 */
 	@Override
 	public void processBindingConfiguration(String context, Item item, String bindingConfig) throws BindingConfigParseException {
-		super.processBindingConfiguration(context, item, bindingConfig);
-		LifxBindingConfig config = new LifxBindingConfig();
+		super.processBindingConfiguration(context, item, bindingConfig);		
 		
-		//parse bindingconfig here ...
+		try {
+
+			if (bindingConfig != null) {
+
+				String[] configParts = bindingConfig.split(":");
+
+				if (item instanceof ColorItem) {
+					BindingConfig hueBindingConfig = (BindingConfig) new LifxBindingConfig(
+							configParts[0], BindingType.rgb.name());
+					addBindingConfig(item, hueBindingConfig);
+				} if (item instanceof DimmerItem) {
+					BindingConfig hueBindingConfig = (BindingConfig) new LifxBindingConfig(
+							configParts[0], BindingType.white.name());
+					addBindingConfig(item, hueBindingConfig);
+				}
+
+			} else {
+				logger.warn("bindingConfig is NULL (item=" + item
+						+ ") -> processing bindingConfig aborted!");
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			logger.warn("bindingConfig is invalid (item=" + item
+					+ ") -> processing bindingConfig aborted!");
+		}
 		
-		addBindingConfig(item, config);		
-	}
-	
-	
-	class LifxBindingConfig implements BindingConfig {
-		// put member fields here which holds the parsed values
-	}
-	
+			
+	}	
 	
 }

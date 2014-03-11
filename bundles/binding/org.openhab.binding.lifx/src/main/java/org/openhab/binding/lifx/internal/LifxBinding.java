@@ -89,6 +89,11 @@ public class LifxBinding extends AbstractActiveBinding<LifxBindingProvider> impl
 		// event bus goes here. This method is only called if one of the 
 		// BindingProviders provide a binding for the given 'itemName'.
 		logger.debug("internalReceiveCommand() is called!");
+		
+		// handle RGB colour setting
+		
+		// handle white intensity setting		
+		
 	}
 	
 	/**
