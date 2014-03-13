@@ -92,7 +92,7 @@ public class LifxBinding extends AbstractActiveBinding<LifxBindingProvider> impl
 		
 		// handle RGB colour setting
 		
-		// handle white intensity setting		
+				
 		
 	}
 	

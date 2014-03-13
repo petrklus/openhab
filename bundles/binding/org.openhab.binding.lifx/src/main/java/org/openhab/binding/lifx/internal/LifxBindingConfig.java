@@ -21,6 +21,7 @@ public class LifxBindingConfig implements BindingConfig {
 	 * <li>RGB</li>
 	 * <li>white</li>
 	 * </ul>
+	 * TODO - remove white as it does not "make sense"
 	 */
 	public enum BindingType {
 		rgb, white

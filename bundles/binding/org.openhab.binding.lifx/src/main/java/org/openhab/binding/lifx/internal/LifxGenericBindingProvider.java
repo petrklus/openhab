@@ -67,14 +67,20 @@ public class LifxGenericBindingProvider extends AbstractGenericBindingProvider i
 
 				String[] configParts = bindingConfig.split(":");
 
+				logger.debug("Lifx config parsing: {}", configParts);				
+
+				String bulb_id =  configParts[0];
+				
+				
 				if (item instanceof ColorItem) {
-					BindingConfig hueBindingConfig = (BindingConfig) new LifxBindingConfig(
-							configParts[0], BindingType.rgb.name());
-					addBindingConfig(item, hueBindingConfig);
+					BindingConfig lifxBindingConfig = (BindingConfig) new LifxBindingConfig(
+							bulb_id, BindingType.rgb.name());
+					
+					addBindingConfig(item, lifxBindingConfig);
 				} if (item instanceof DimmerItem) {
-					BindingConfig hueBindingConfig = (BindingConfig) new LifxBindingConfig(
-							configParts[0], BindingType.white.name());
-					addBindingConfig(item, hueBindingConfig);
+					BindingConfig lifxBindingConfig = (BindingConfig) new LifxBindingConfig(
+							bulb_id, BindingType.white.name());
+					addBindingConfig(item, lifxBindingConfig);
 				}
 
 			} else {
